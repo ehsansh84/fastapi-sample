@@ -37,7 +37,8 @@ class Update(Base):
     f"""
     Use this model to update a Sensor
     """
-    pass
+    # In case of a real database we do not need this field
+    uid: str = Field(description="uid of Sensor", example="f969d7c6-c9a0-470b-84bf-b286f71ca38b")
 
 
 ListRead = List[Read]
