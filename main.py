@@ -32,6 +32,11 @@ async def create_item(item: Sensor):
     return {"id": item.uid}
 
 
+@app.get("/sensor/")
+async def read_item():
+    return sensors
+
+
 @app.get("/sensor/{uid}")
 async def read_item(uid: str):
     for item in sensors:
