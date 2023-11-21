@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 import uuid
 from pydantic import BaseModel
+from fastapi import APIRouter, status, HTTPException, Request
 
 
 app = FastAPI()
@@ -42,13 +43,20 @@ async def read_item(uid: str):
     for item in sensors:
         if item.uid == uid:
             return item
-    return {}
+    raise HTTPException(
+        status_code=status.HTTP_409_CONFLICT,
+        detail=f'Record not found!',
+    )
 
 
 @app.put("/sensor/{uid}")
 async def update_item(uid: str, item: Sensor):
     print(item.uid)
-    return {}
+
+    raise HTTPException(
+        status_code=status.HTTP_409_CONFLICT,
+        detail=f'Record not found!',
+    )
 
 
 @app.delete("/sensor/{uid}")
