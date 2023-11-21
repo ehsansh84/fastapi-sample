@@ -1,6 +1,12 @@
 import uuid
 from pydantic import BaseModel, Field
 from typing import List
+from enum import Enum
+
+
+class SensorStatus(str, Enum):
+    Active = "active"
+    Inactive = "inactive"
 
 
 class Base(BaseModel):
@@ -8,7 +14,7 @@ class Base(BaseModel):
     Use this model for base fields of a Sensor
     """
     name: str = ""
-    status: str = ""
+    status: SensorStatus = SensorStatus.Inactive
     location: dict = {}
 
     def __init__(self, **data):
