@@ -11,8 +11,6 @@ app = FastAPI()
 sensors = []
 
 
-#TODO: Define constants for sensor states
-
 @app.post("/sensor/", status_code=status.HTTP_201_CREATED, response_model=OutputCreate)
 async def create_item(item: Write):
     sensors.append(item)
@@ -49,12 +47,12 @@ async def update_item(uid: str, item: Update):
     )
 
 
-@app.delete("/sensor/{uid}", status_code=status.HTTP_200_OK, response_model=OutputOnlyNote)
+# @app.delete("/sensor/{uid}", status_code=status.HTTP_200_OK, response_model=OutputOnlyNote)
+@app.delete("/sensor/{uid}", status_code=status.HTTP_200_OK)
 async def delete_item(uid: str):
     for item in sensors:
         if item.uid == uid:
             sensors.remove(item)
-            print(sensors)
             return 'Item successfully deleted.'
 
     raise HTTPException(
