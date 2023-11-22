@@ -1,9 +1,9 @@
-from fastapi import FastAPI
 import uvicorn
-from pydantic import BaseModel
-from fastapi import APIRouter, status, HTTPException, Request
+from fastapi import FastAPI
+from fastapi import status, HTTPException
+
+from api_models.general import OutputCreate
 from api_models.sensor import Read, Write, Update, ListRead
-from api_models.general import Item, OutputOnlyNote, OutputCreate
 
 app = FastAPI()
 
@@ -35,14 +35,11 @@ async def read_item(uid: str):
 
 @app.put("/sensor/{uid}", status_code=status.HTTP_201_CREATED)
 async def update_item(uid: str, item: Update):
-    print(sensors)
     temp = Write()
     vars(temp).update(vars(item))
     temp.uid = uid
-    # item.uid = uid
     for idx, sensor in enumerate(sensors):
         if sensor.uid == uid:
-            # sensors[idx] = item
             sensors[idx] = temp
             return 'Item successfully updated.'
     raise HTTPException(
@@ -56,9 +53,7 @@ async def update_item(uid: str, item: Update):
 async def delete_item(uid: str):
     for item in sensors:
         if item.uid == uid:
-            print(sensors)
             sensors.remove(item)
-            print(sensors)
             return 'Item successfully deleted.'
 
     raise HTTPException(
